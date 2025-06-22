@@ -1,140 +1,179 @@
 <?php
-    include 'koneksidb.php';
+include 'koneksidb.php';
+session_start();
+// if (!isset($_SESSION['user_id'])) {
+//     header('Location: login.php');
+//     exit;
+// }
+
+$data = mysqli_query($koneksi, "SELECT * FROM kamar");
 ?>
 
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daftar Kamar Hotel</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8">
+  <title>Data Kamar | Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      background-color: #f2f4f8;
+    }
 
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            color: #333;
-            padding: 20px;
-        }
+    .navbar {
+      background: linear-gradient(45deg, #4e54c8, #8f94fb);
+      color: white;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
 
-        h2 {
-            text-align: center;
-            color: #4CAF50;
-            margin-bottom: 20px;
-        }
+    .navbar h2 {
+      color: white;
+      margin: 0;
+      font-weight: 600;
+    }
 
-        table {
-            width: 100%;
-            margin-top: 20px;
-            border-collapse: collapse;
-            border: 1px solid #ddd;
-        }
+    .navbar a {
+      color: white;
+      text-decoration: none;
+      margin-left: 20px;
+      font-weight: 500;
+    }
 
-        th, td {
-            padding: 12px;
-            text-align: left;
-        }
+    .navbar a:hover {
+      text-decoration: underline;
+    }
 
-        th {
-            background-color: #4CAF50;
-            color: white;
-            font-weight: bold;
-        }
+    .container {
+      padding: 30px;
+    }
 
-        tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
+    h2 {
+      color: #4e54c8;
+      margin-bottom: 20px;
+    }
 
-        tr:hover {
-            background-color: #ddd;
-        }
+    .btn {
+      display: inline-block;
+      padding: 10px 16px;
+      background-color: #4e54c8;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: 500;
+      margin-bottom: 20px;
+      transition: 0.3s ease;
+    }
 
-        a {
-            text-decoration: none;
-            color: #fff;
-            background-color: #4CAF50;
-            padding: 5px 10px;
-            border-radius: 3px;
-            transition: background-color 0.3s;
-        }
+    .btn:hover {
+      background-color: #3f45b3;
+      transform: scale(1.05);
+    }
 
-        a:hover {
-            background-color: #45a049;
-        }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+    }
 
-        .add-room {
-            display: block;
-            text-align: center;
-            margin-bottom: 20px;
-        }
+    th, td {
+      padding: 14px 16px;
+      text-align: left;
+      border-bottom: 1px solid #f0f0f0;
+    }
 
-        .add-room a {
-            font-size: 16px;
-            background-color: #ff5722;
-            padding: 10px 20px;
-            border-radius: 5px;
-            color: white;
-            text-transform: uppercase;
-            transition: background-color 0.3s;
-        }
+    th {
+      background-color: #f9f9fc;
+      color: #4e54c8;
+    }
 
-        .add-room a:hover {
-            background-color: #e64a19;
-        }
+    tr:hover {
+      background-color: #f9f9fc;
+    }
 
+    .aksi a {
+      display: inline-block;
+      margin-right: 8px;
+      padding: 6px 10px;
+      font-size: 13px;
+      font-weight: 500;
+      text-decoration: none;
+      border-radius: 6px;
+      color: white;
+    }
 
-        table {
-            border: 1px solid #ddd;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
+    .edit {
+      background-color: #4e9af1;
+      transition: 0.3s ease;
+    }
 
-        td:last-child {
-            text-align: center;
-        }
+    .delete {
+      background-color: #e74c3c;
+      transition: 0.3s ease;
+    }
 
-    </style>
+    .edit:hover {
+      background-color: #3e89d1;
+      transform: scale(1.07);
+    }
+
+    .delete:hover {
+      background-color: #c0392b;
+      transform: scale(1.07);
+    }
+  </style>
 </head>
 <body>
-    <h2>Daftar Kamar Hotel</h2>
 
-    <div class="add-room">
-        <a href='tambahkamar.php'>Tambah Kamar</a>
+  <div class="navbar">
+    <h2>Data Kamar</h2>
+    <div>
+      <a href="dashboard.php">Dashboard</a>
+      <a href="tampil_kamar.php">Kamar</a>
+      <a href="tampil_reservasi.php">Reservasi</a>
+      <a href="tampil_user.php">User</a>
+      <a href="logout.php">Logout</a>
     </div>
-    
-    <table>
-        <tr>
-            <th>No</th>
-            <th>ID Kamar</th>
-            <th>Tipe Kamar</th>
-            <th>Harga</th>
-            <th>Status</th>
-            <th>Aksi</th>
-        </tr>
+  </div>
 
-        <?php
-            $no = 1;
-            $query = mysqli_query($koneksi, "select * from kamar");
-            while ($data = mysqli_fetch_array($query)) {
-        ?>
-            <tr>
-                <td><?php echo $no++ ?></td>
-                <td><?php echo $data['id_kamar'] ?></td>
-                <td><?php echo $data['tipe_kamar'] ?></td>
-                <td><?php echo "Rp. ".$data['harga'] ?></td>
-                <td><?php echo $data['status'] ?></td>
-                <td>
-                    <a href="edit.php?id=<?php echo $data['id_kamar']?>">Edit</a>
-                    <a href="hapus.php?id=<?php echo $data['id_kamar']?>">Hapus</a>
-                </td>
-            </tr>
-        <?php
-            }
-        ?>
+  <div class="container">
+    <h2>Daftar Kamar Hotel</h2>
+    <a class="btn" href="tambah_kamar.php">+ Tambah Kamar</a>
+    <table>
+      <thead>
+        <tr>
+          <th>No</th>
+          <th>Nomor Kamar</th>
+          <th>Tipe</th>
+          <th>Harga</th>
+          <th>Status</th>
+          <th>Aksi</th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php $no = 1; while ($d = mysqli_fetch_array($data)) { ?>
+          <tr>
+            <td><?= $no++ ?></td>
+            <td><?= $d['id_kamar'] ?></td>
+            <td><?= $d['tipe_kamar'] ?></td>
+            <td>Rp <?= number_format($d['harga'], 0, ',', '.') ?></td>
+            <td><?= $d['status'] ?></td>
+            <td class="aksi">
+              <a class="edit" href="edit.php?id=<?= $d['id_kamar'] ?>">Edit</a>
+              <a class="delete" href="hapus.php?id=<?= $d['id_kamar'] ?>" onclick="return confirm('Hapus kamar ini?')">Hapus</a>
+            </td>
+          </tr>
+        <?php } ?>
+      </tbody>
     </table>
+  </div>
+
 </body>
 </html>

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tentang Kami - HotelSoft</title>
+  </head>
+
+  <style>
+    :root {
+      .about-main {
+        max-width: 900px;
+        margin: 2.5rem auto;
+        padding: 0 1.5rem;
+      }
+
+      .about-section {
+        background: var(--white);
+        border-radius: 12px;
+        box-shadow: 0 2px 12px rgba(126, 200, 227, 0.08);
+        padding: 2rem 1.5rem;
+        margin-bottom: 2rem;
+      }
+
+      .about-section h2 {
+        color: var(--primary);
+        margin-top: 0;
+      }
+
+      .team-section .team-list {
+        display: flex;
+        gap: 2rem;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-top: 1.5rem;
+      }
+
+      .team-member {
+        background: var(--secondary);
+        border-radius: 10px;
+        box-shadow: 0 1px 6px rgba(126, 200, 227, 0.04);
+        padding: 1.2rem 1rem;
+        text-align: center;
+        width: 220px;
+      }
+
+      .team-member img {
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+        border-radius: 50%;
+        margin-bottom: 0.8rem;
+        border: 3px solid var(--primary);
+      }
+
+      .team-member h4 {
+        margin: 0.5rem 0 0.2rem 0;
+        color: var(--primary);
+      }
+
+      .values-list {
+        list-style: disc inside;
+        padding-left: 0.5rem;
+        color: var(--text);
+      }
+
+      .values-list li {
+        margin-bottom: 1rem;
+        font-size: 1.07rem;
+      }
+    }
+  </style>
+  
+  <body>
+    <header>
+      <nav>
+        <div class="logo">HotelSoft</div>
+        <ul>
+          <li><a href="index.html">Beranda</a></li>
+          <li><a href="about.html" class="active">Tentang Kami</a></li>
+          <li><a href="services.html">Layanan</a></li>
+          <li><a href="booking.html">Pesanan</a></li>
+          <li><a href="contact.html">Kontak</a></li>
+          <li><a href="login.html">Login</a></li>
+          <li><a href="register.html">Daftar</a></li>
+        </ul>
+      </nav>
+    </header>
+    <main class="about-main">
+      <!-- Sejarah & Visi Misi -->
+      <section class="about-section">
+        <h2>Sejarah & Visi Misi</h2>
+        <p>
+          HotelSoft didirikan pada tahun 2010 dengan tujuan menjadi pilihan
+          utama bagi para pelancong yang mencari kenyamanan dan kemudahan dalam
+          reservasi hotel. Visi kami adalah memberikan pengalaman menginap
+          terbaik melalui pelayanan yang ramah, fasilitas modern, dan proses
+          reservasi yang mudah. Misi kami adalah memastikan setiap tamu merasa
+          seperti di rumah sendiri, dengan mengutamakan kenyamanan, keamanan,
+          dan kepuasan pelanggan.
+        </p>
+      </section>
+      <!-- Tim Manajemen -->
+      <section class="about-section team-section">
+        <h2>Tim Manajemen</h2>
+        <div class="team-list">
+          <div class="team-member">
+            <img
+              src="https://randomuser.me/api/portraits/men/32.jpg"
+              alt="CEO HotelSoft"
+            />
+            <h4>Andi Prasetyo</h4>
+            <p>
+              CEO & Founder<br />Berpengalaman lebih dari 15 tahun di industri
+              perhotelan, Andi memastikan standar layanan terbaik di HotelSoft.
+            </p>
+          </div>
+          <div class="team-member">
+            <img
+              src="https://randomuser.me/api/portraits/women/44.jpg"
+              alt="COO HotelSoft"
+            />
+            <h4>Sri Wahyuni</h4>
+            <p>
+              COO<br />Ahli dalam operasional hotel dan manajemen tim, Sri
+              selalu mengutamakan kenyamanan dan kebutuhan tamu.
+            </p>
+          </div>
+          <div class="team-member">
+            <img
+              src="https://randomuser.me/api/portraits/men/54.jpg"
+              alt="CMO HotelSoft"
+            />
+            <h4>Budi Santoso</h4>
+            <p>
+              CMO<br />Bertanggung jawab pada pemasaran dan inovasi layanan,
+              Budi membawa HotelSoft dikenal luas di Indonesia.
+            </p>
+          </div>
+        </div>
+      </section>
+      <!-- Nilai & Komitmen -->
+      <section class="about-section">
+        <h2>Nilai & Komitmen</h2>
+        <ul class="values-list">
+          <li>
+            <strong>Pelayanan Ramah:</strong> Setiap tamu adalah prioritas kami,
+            dengan pelayanan yang selalu profesional dan bersahabat.
+          </li>
+          <li>
+            <strong>Kenyamanan Maksimal:</strong> Kami memastikan fasilitas dan
+            kamar selalu bersih, aman, dan nyaman untuk setiap tamu.
+          </li>
+          <li>
+            <strong>Komitmen pada Kepuasan:</strong> Kami mendengarkan masukan
+            tamu dan selalu berinovasi untuk meningkatkan kualitas layanan.
+          </li>
+        </ul>
+      </section>
+    </main>
+    <footer>
+      <div>
+        <span
+          ><i class="fa-solid fa-location-dot"></i> Jl. Keputih, Surabaya</span
+        >
+        | <span><i class="fa-solid fa-phone"></i> 0812-3456-7890</span> |
+        <span><i class="fa-solid fa-envelope"></i> info@hotelsoft.com</span>
+      </div>
+      <div class="social-links">
+        <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+        <a href="#"><i class="fa-brands fa-instagram"></i></a>
+        <a href="#"><i class="fa-brands fa-twitter"></i></a>
+      </div>
+      <div>© 2025 HotelSoft. All rights reserved.</div>
+    </footer>
+  </body>
+</html>

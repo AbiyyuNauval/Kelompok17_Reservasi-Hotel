@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Layanan - HotelSoft</title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+  </head>
+
+  <style>
+    .services-main {
+      max-width: 1100px;
+      margin: 2.5rem auto;
+      padding: 0 1.5rem;
+    }
+
+    .services-main h2 {
+      color: var(--primary);
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .services-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      justify-content: center;
+    }
+
+    .service-card {
+      background: var(--white);
+      border-radius: 16px;
+      box-shadow: 0 2px 12px rgba(126, 200, 227, 0.1);
+      width: 290px;
+      padding: 2rem 1.2rem 1.5rem 1.2rem;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .service-card:hover {
+      transform: translateY(-7px) scale(1.03);
+      box-shadow: 0 6px 24px rgba(126, 200, 227, 0.18);
+    }
+
+    .service-icon {
+      background: var(--primary);
+      color: var(--white);
+      border-radius: 50%;
+      width: 64px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.1rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 2px 8px rgba(126, 200, 227, 0.1);
+    }
+
+    .service-card h3 {
+      margin: 0.5rem 0 0.4rem 0;
+      color: var(--primary);
+      font-size: 1.18rem;
+    }
+
+    .service-card p {
+      color: var(--text);
+      font-size: 1.02rem;
+      margin-bottom: 0.7rem;
+    }
+
+    .service-price {
+      margin-top: auto;
+      color: var(--accent);
+      font-weight: bold;
+      font-size: 1.05rem;
+    }
+
+    @media (max-width: 900px) {
+      .services-list {
+        gap: 1.2rem;
+      }
+      .service-card {
+        width: 100%;
+        max-width: 340px;
+      }
+    }
+  </style>
+
+  <body>
+    <header>
+      <nav>
+        <div class="logo">HotelSoft</div>
+        <ul>
+          <li><a href="index.html">Beranda</a></li>
+          <li><a href="about.html">Tentang Kami</a></li>
+          <li><a href="services.html" class="active">Layanan</a></li>
+          <li><a href="booking.html">Pesanan</a></li>
+          <li><a href="contact.html">Kontak</a></li>
+          <li><a href="login.html">Login</a></li>
+          <li><a href="register.html">Daftar</a></li>
+        </ul>
+      </nav>
+    </header>
+    <main class="services-main">
+      <h2>Layanan Kami</h2>
+      <div class="services-list">
+        <div class="service-card">
+          <div class="service-icon"><i class="fa-solid fa-shirt"></i></div>
+          <h3>Laundry</h3>
+          <p>
+            Pakaian Anda bersih dan wangi dengan layanan laundry profesional
+            kami.
+          </p>
+          <div class="service-price">Mulai Rp 25.000 /kg</div>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">
+            <i class="fa-solid fa-shuttle-van"></i>
+          </div>
+          <h3>Antar-Jemput Bandara</h3>
+          <p>
+            Transportasi nyaman dari dan ke bandara dengan sopir berpengalaman.
+          </p>
+          <div class="service-price">Rp 150.000 /trip</div>
+        </div>
+        <div class="service-card">
+          <div class="service-icon"><i class="fa-solid fa-utensils"></i></div>
+          <h3>Restoran</h3>
+          <p>
+            Nikmati hidangan lokal dan internasional di restoran hotel kami.
+          </p>
+          <div class="service-price">Menu mulai Rp 30.000</div>
+        </div>
+        <div class="service-card">
+          <div class="service-icon"><i class="fa-solid fa-spa"></i></div>
+          <h3>Spa & Wellness</h3>
+          <p>
+            Relaksasi tubuh dan pikiran dengan layanan spa dari terapis
+            profesional.
+          </p>
+          <div class="service-price">Mulai Rp 120.000 /sesi</div>
+        </div>
+        <div class="service-card">
+          <div class="service-icon"><i class="fa-solid fa-mug-hot"></i></div>
+          <h3>Layanan Kamar 24 Jam</h3>
+          <p>Pesan makanan atau minuman kapan saja langsung ke kamar Anda.</p>
+          <div class="service-price">Biaya tambahan 10% dari pesanan</div>
+        </div>
+        <div class="service-card">
+          <div class="service-icon"><i class="fa-solid fa-wifi"></i></div>
+          <h3>WiFi Gratis</h3>
+          <p>Akses internet cepat dan stabil di seluruh area hotel.</p>
+          <div class="service-price">Gratis</div>
+        </div>
+      </div>
+    </main>
+    <footer>
+      <div>
+        <span
+          ><i class="fa-solid fa-location-dot"></i> Jl. Keputih, Surabaya</span
+        >
+        | <span><i class="fa-solid fa-phone"></i> 0812-3456-7890</span> |
+        <span><i class="fa-solid fa-envelope"></i> info@hotelsoft.com</span>
+      </div>
+      <div class="social-links">
+        <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+        <a href="#"><i class="fa-brands fa-instagram"></i></a>
+        <a href="#"><i class="fa-brands fa-twitter"></i></a>
+      </div>
+      <div>© 2025 HotelSoft. All rights reserved.</div>
+    </footer>
+  </body>
+</html>

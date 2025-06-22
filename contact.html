@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kontak - HotelSoft</title>
+</head>
+
+<style>
+.contact-main {
+    max-width: 900px;
+    margin: 2.5rem auto;
+    padding: 0 1.5rem;
+}
+
+.contact-section {
+    background: var(--white);
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(126,200,227,0.08);
+    padding: 2rem 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.contact-flex {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.contact-form {
+    flex: 1 1 320px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.contact-form label {
+    color: var(--primary);
+    font-weight: 500;
+    text-align: left;
+}
+
+.contact-form input,
+.contact-form textarea {
+    background: var(--secondary);
+    color: var(--text);
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 0.7rem;
+    font-size: 1rem;
+    resize: none;
+}
+
+.contact-form button {
+    background: var(--primary);
+    color: var(--white);
+    border: none;
+    border-radius: 8px;
+    padding: 0.9rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 0.5rem;
+    transition: background 0.2s;
+}
+
+.contact-form button:hover {
+    background: var(--accent);
+    color: var(--text);
+}
+
+.success-message {
+    color: #27ae60;
+    font-size: 0.97rem;
+    margin-top: 0.5rem;
+    min-height: 20px;
+}
+
+.contact-map {
+    flex: 1 1 280px;
+    min-width: 260px;
+    max-width: 380px;
+}
+
+.contact-info {
+    background: var(--white);
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(126,200,227,0.08);
+    padding: 1.5rem 1.5rem 1rem 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.contact-info h3 {
+    color: var(--primary);
+    margin-top: 0;
+}
+
+.contact-info ul {
+    list-style: none;
+    padding-left: 0;
+    color: var(--text);
+    font-size: 1.08rem;
+}
+
+.contact-info li {
+    margin-bottom: 0.7rem;
+}
+
+@media (max-width: 700px) {
+    .contact-flex {
+        flex-direction: column;
+        gap: 1.2rem;
+    }
+    .contact-main {
+        padding: 0 0.5rem;
+    }
+}
+</style>
+
+<body>
+    <header>
+        <nav>
+            <div class="logo">HotelSoft</div>
+            <ul>
+                <li><a href="index.html">Beranda</a></li>
+                <li><a href="about.html">Tentang Kami</a></li>
+                <li><a href="services.html">Layanan</a></li>
+                <li><a href="booking.html">Pesanan</a></li>
+                <li><a href="contact.html" class="active">Kontak</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="register.html">Daftar</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main class="contact-main">
+        <section class="contact-section">
+            <h2>Hubungi Kami</h2>
+            <div class="contact-flex">
+                <!-- Form Kontak -->
+                <form class="contact-form" id="contactForm">
+                    <label for="contactName">Nama</label>
+                    <input type="text" id="contactName" required>
+                    
+                    <label for="contactEmail">Email</label>
+                    <input type="email" id="contactEmail" required>
+                    
+                    <label for="contactMessage">Pesan</label>
+                    <textarea id="contactMessage" rows="5" required></textarea>
+                    
+                    <button type="submit">Kirim Pesan</button>
+                    <div id="contactMsg" class="success-message"></div>
+                </form>
+                <!-- Peta Lokasi -->
+                <div class="contact-map">
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3958.523793595557!2d112.79709431533442!3d-7.18064499480953!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd7fb6e1b2b1e9b%3A0x7d0e1e9e7b1e9b9e!2sKeputih%2C%20Sukolilo%2C%20Surabaya!5e0!3m2!1sid!2sid!4v1689145790000!5m2!1sid!2sid"
+                        width="100%" height="260" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                </div>
+            </div>
+        </section>
+        <!-- Info Kontak -->
+        <section class="contact-info">
+            <h3>Informasi Kontak</h3>
+            <ul>
+                <li><strong>Alamat:</strong> Jl. Keputih, Sukolilo, Surabaya</li>
+                <li><strong>Telepon:</strong> 0812-3456-7890</li>
+                <li><strong>Email:</strong> info@hotelsoft.com</li>
+                <li><strong>Jam Operasional:</strong> Setiap hari, 07.00 - 22.00 WIB</li>
+            </ul>
+        </section>
+    </main>
+    <footer>
+        <div>
+            <span><i class="fa-solid fa-location-dot"></i> Jl. Keputih, Surabaya</span> |
+            <span><i class="fa-solid fa-phone"></i> 0812-3456-7890</span> |
+            <span><i class="fa-solid fa-envelope"></i> info@hotelsoft.com</span>
+        </div>
+        <div class="social-links">
+            <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="#"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#"><i class="fa-brands fa-twitter"></i></a>
+        </div>
+        <div>© 2025 HotelSoft. All rights reserved.</div>
+    </footer>
+    <script>
+        // Validasi dan notifikasi form kontak
+        const contactForm = document.getElementById('contactForm');
+        const contactMsg = document.getElementById('contactMsg');
+        if(contactForm) {
+            contactForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                contactMsg.textContent = "Pesan Anda berhasil dikirim. Terima kasih!";
+                contactForm.reset();
+                setTimeout(() => { contactMsg.textContent = ""; }, 4000);
+            });
+        }
+    </script>
+</body>
+</html>

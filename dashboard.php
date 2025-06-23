@@ -2,14 +2,37 @@
 session_start();
 include 'koneksidb.php';
 
-// if (!isset($_SESSION['user_id'])) {
-//     header('Location: login.php');
-//     exit;
-// }
+if (!isset($_SESSION['id_user'])) {
+    header('Location: login.php');
+    exit;
+}
+if ($_SESSION['status'] != 'Admin'){
+  die("Akses ditolak.");
+  exit;
+}
 
+// Count
 $kamar = mysqli_fetch_array(mysqli_query($koneksi, "SELECT COUNT(*) AS total_kamar FROM kamar"));
 $reservasi = mysqli_fetch_array(mysqli_query($koneksi, "SELECT COUNT(*) AS total_reservasi FROM reservasi"));
-// $user = mysqli_fetch_array(mysqli_query($koneksi, "SELECT COUNT(*) AS total_user FROM user"));
+$user = mysqli_fetch_array(mysqli_query($koneksi, "SELECT COUNT(*) AS total_user FROM user"));
+$kamar_tersedia = mysqli_fetch_array(mysqli_query($koneksi, "SELECT COUNT(*) AS total_tersedia FROM kamar where status='Tersedia'"));
+$kamar_dipesan = mysqli_fetch_array(mysqli_query($koneksi, "SELECT COUNT(*) AS total_dipesan FROM kamar where status='Dipesan'"));
+$pelanggan = mysqli_fetch_array(mysqli_query($koneksi, "SELECT COUNT(*) AS total_pelanggan FROM user where status='Pelanggan'"));
+$admin = mysqli_fetch_array(mysqli_query($koneksi, "SELECT COUNT(*) AS total_admin FROM user where status='Admin'"));
+
+// Max
+$kamar_termahal = mysqli_fetch_array(mysqli_query($koneksi, "SELECT MAX(harga) AS harga_termahal FROM kamar"));
+$reservasi_termahal = mysqli_fetch_array(mysqli_query($koneksi, "SELECT MAX(total_harga) AS rsv_termahal FROM reservasi"));
+
+// Min
+$kamar_termurah = mysqli_fetch_array(mysqli_query($koneksi, "SELECT MIN(harga) AS harga_termurah FROM kamar"));
+$reservasi_termurah = mysqli_fetch_array(mysqli_query($koneksi, "SELECT MIN(total_harga) AS rsv_termurah FROM reservasi"));
+
+// Avg
+$rata_reservasi = mysqli_fetch_array(mysqli_query($koneksi, "SELECT AVG(total_harga) AS rata_rsv FROM reservasi"));
+
+// Sum
+$total_pendapatan = mysqli_fetch_array(mysqli_query($koneksi, "SELECT SUM(total_harga) AS pendapatan FROM reservasi"));
 ?>
 
 <!DOCTYPE html>
@@ -19,89 +42,72 @@ $reservasi = mysqli_fetch_array(mysqli_query($koneksi, "SELECT COUNT(*) AS total
   <title>Dashboard Admin | Hotel</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    body {
-      font-family: 'Poppins', sans-serif;
-      margin: 0;
-      background-color: #f2f4f8;
+    body { 
+      font-family: 'Poppins', sans-serif; 
+      margin: 0; 
+      background-color: #f2f4f8; 
     }
-
-    .navbar {
-      background: linear-gradient(45deg, #4e54c8, #8f94fb);
-      color: white;
-      padding: 15px 30px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+    .navbar { 
+      background: linear-gradient(45deg, #4e54c8, #8f94fb); 
+      color: white; 
+      padding: 15px 30px; 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
     }
-
-    .navbar h2 {
-      margin: 0;
-      font-weight: 600;
+    .navbar h2 { 
+      margin: 0; 
+      font-weight: 600; 
     }
-
-    .navbar a {
-      color: white;
-      text-decoration: none;
-      margin-left: 20px;
-      font-weight: 500;
+    .navbar a { 
+      color: white; 
+      text-decoration: none; 
+      margin-left: 20px; 
+      font-weight: 500; 
     }
-
-    .navbar a:hover {
-      text-decoration: underline;
+    .navbar a:hover { 
+      text-decoration: underline; 
     }
-
-    .container {
-      padding: 30px;
+    .container { 
+      padding: 30px; 
     }
-
-    .card-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
-      margin-top: 30px;
+    .card-grid { 
+      display: grid; 
+      grid-template-columns: repeat(3, minmax(250px, 1fr)); 
+      gap: 20px; 
+      margin-top: 30px; 
     }
-
-    .card {
-      background-color: white;
-      border-radius: 12px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      padding: 20px;
-      transition: 0.3s ease;
+    .card { 
+      background-color: white; 
+      border-radius: 12px; 
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
+      padding: 20px; 
+      transition: 0.3s ease; 
     }
-
-    .card:hover {
-      transform: translateY(-5px);
+    .card:hover { 
+      transform: translateY(-5px); 
     }
-
-    .card h3 {
-      margin: 0;
-      color: #4e54c8;
+    .card h3 { 
+      margin: 0; 
+      color: #4e54c8; 
     }
-
-    .card p {
-      margin-top: 10px;
-      font-size: 18px;
+    .card p { 
+      margin-top: 10px; 
+      font-size: 18px; 
+      font-weight: 600; 
     }
-
-    .card a {
-      display: inline-block;
-      margin-top: 15px;
-      color: #4e54c8;
-      text-decoration: none;
-      font-weight: bold;
-    }
-
-    .card a:hover {
-      text-decoration: underline;
+    .card small { 
+      font-size: 14px; 
+      color: #777; 
     }
   </style>
 </head>
 <body>
 
-  <div class="navbar">
+<div class="navbar">
     <h2>Dashboard Admin</h2>
     <div>
-      <a href="dashboard.php">Beranda</a>
+      <a href="dashboard.php">Dashboard</a>
       <a href="tampil_kamar.php">Kamar</a>
       <a href="tampil_reservasi.php">Reservasi</a>
       <a href="tampil_user.php">User</a>
@@ -110,23 +116,49 @@ $reservasi = mysqli_fetch_array(mysqli_query($koneksi, "SELECT COUNT(*) AS total
   </div>
 
   <div class="container">
-    <h2>Selamat Datang di Sistem Reservasi Hotel</h2>
+    <h2>Sistem Reservasi Hotel</h2>
+    
     <div class="card-grid">
       <div class="card">
-        <h3>Jumlah Kamar</h3>
+        <h3>Total Pendapatan</h3>
+        <p>Rp <?= number_format($total_pendapatan['pendapatan'] ?? 0, 0, ',', '.') ?></p>
+        <small>Dari <?= $reservasi['total_reservasi'] ?> Reservasi</small>
+      </div>
+       <div class="card">
+        <h3>Rata-rata/Reservasi</h3>
+        <p>Rp <?= number_format($rata_reservasi['rata_rsv'] ?? 0, 0, ',', '.') ?></p>
+         <small>Nilai rata-rata per transaksi</small>
+      </div>
+      <div class="card">
+        <h3>Total Kamar</h3>
         <p><?= $kamar['total_kamar'] ?> Kamar</p>
-        <a href="tampil_kamar.php">Lihat Kamar →</a>
+        <small>Tersedia: <?= $kamar_tersedia['total_tersedia'] ?> | Dipesan: <?= $kamar_dipesan['total_dipesan'] ?></small>
       </div>
-      <div class="card">
-        <h3>Total Reservasi</h3>
-        <p><?= $reservasi['total_reservasi'] ?> Reservasi</p>
-        <a href="tampil_reservasi.php">Lihat Reservasi →</a>
-      </div>
-      <div class="card">
-        <h3>Jumlah User</h3>
-        <p><?= $user['total_user'] ?> Pengguna</p>
-        <a href="tampil_user.php">Lihat User →</a>
-      </div>
+    </div>
+
+    <h2 style="margin-top: 40px;">Statistik Lainnya</h2>
+    <div class="card-grid">
+        <div class="card">
+            <h3>Harga Kamar Termahal</h3>
+            <p>Rp <?= number_format($kamar_termahal['harga_termahal'] ?? 0, 0, ',', '.') ?></p>
+        </div>
+        <div class="card">
+            <h3>Reservasi Termahal</h3>
+            <p>Rp <?= number_format($reservasi_termahal['rsv_termahal'] ?? 0, 0, ',', '.') ?> </p>
+        </div>
+        <div class="card">
+            <h3>Harga Kamar Termurah</h3>
+            <p>Rp <?= number_format($kamar_termurah['harga_termurah'] ?? 0, 0, ',', '.') ?></p>
+        </div>
+        <div class="card">
+            <h3>Reservasi Termurah</h3>
+            <p>Rp <?= number_format($reservasi_termurah['rsv_termurah'] ?? 0, 0, ',', '.') ?></p>
+        </div>
+        <div class="card">
+            <h3>Total Pengguna</h3>
+            <p><?= $user['total_user'] ?> Pengguna</p>
+            <small>Pelanggan: <?= $pelanggan['total_pelanggan'] ?> | Admin: <?= $admin['total_admin'] ?></small>
+        </div>
     </div>
   </div>
 

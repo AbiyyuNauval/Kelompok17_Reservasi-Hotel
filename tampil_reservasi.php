@@ -6,18 +6,23 @@ if (!isset($_SESSION['id_user'])) {
   exit;
 }
 if ($_SESSION['status'] != 'Admin'){
-die("Akses ditolak.");
+  die("Akses ditolak.");
 exit;
 }
 
-$data = mysqli_query($koneksi, "SELECT * FROM kamar");
+$reservasi = mysqli_query($koneksi, "
+  SELECT r.*, u.nama, k.id_kamar 
+  FROM reservasi r 
+  JOIN user u ON r.id_user = u.id_user 
+  JOIN kamar k ON r.id_kamar = k.id_kamar
+");
 ?>
 
 <!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <title>Data Kamar | Admin</title>
+  <title>Data User | Admin</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
     body {
@@ -137,7 +142,7 @@ $data = mysqli_query($koneksi, "SELECT * FROM kamar");
 <body>
 
   <div class="navbar">
-    <h2>Data Kamar</h2>
+    <h2>Data Reservasi</h2>
     <div>
       <a href="dashboard.php">Dashboard</a>
       <a href="tampil_kamar.php">Kamar</a>
@@ -148,30 +153,34 @@ $data = mysqli_query($koneksi, "SELECT * FROM kamar");
   </div>
 
   <div class="container">
-    <h2>Daftar Kamar Hotel</h2>
-    <a class="btn" href="tambah.php?tipe=kamar">+ Tambah Kamar</a>
+    <h2>Daftar Reservasi Hotel</h2>
+    <a class="btn" href="tambah.php?tipe=reservasi">+ Tambah Reservasi</a>
     <table>
       <thead>
         <tr>
           <th>No</th>
-          <th>Nomor Kamar</th>
-          <th>Tipe</th>
-          <th>Harga</th>
-          <th>Status</th>
+          <th>Nama User</th>
+          <th>No Kamar</th>
+          <th>Check-in</th>
+          <th>Check-out</th>
+          <th>Total Harga</th>
           <th>Aksi</th>
         </tr>
       </thead>
       <tbody>
-        <?php $no = 1; while ($d = mysqli_fetch_array($data)) { ?>
+        <?php $no = 1; while ($d = mysqli_fetch_array($reservasi)) { ?>
+          <?php$tipekamar = mysqli_query($koneksi, "SELECT tipe_kamar FROM kamar where id_kamar='d['id_kamar']");?>
           <tr>
             <td><?= $no++ ?></td>
+            <td><?= $d['nama'] ?></td>
             <td><?= $d['id_kamar'] ?></td>
-            <td><?= $d['tipe_kamar'] ?></td>
-            <td>Rp <?= number_format($d['harga'], 0, ',', '.') ?></td>
-            <td><?= $d['status'] ?></td>
+            <td><?= $d['tanggal_checkin'] ?></td>
+            <td><?= $d['tanggal_checkout'] ?></td>
+            <td>Rp <?= number_format($d['total_harga'], 0, ',', '.') ?></td>
+            
             <td class="aksi">
-              <a class="edit" href="edit.php?tipe=kamar&id=<?= $d['id_kamar'] ?>">Edit</a>
-              <a class="delete" href="hapus.php?tipe=kamar&id=<?= $d['id_kamar'] ?>" onclick="return confirm('Hapus kamar ini?')">Hapus</a>
+              <a class="edit" href="edit.php?tipe=reservasi&id=<?= $d['id_reservasi'] ?>">Edit</a>
+              <a class="delete" href="hapus.php?tipe=reservasi&id=<?= $d['id_reservasi'] ?>" onclick="return confirm('Hapus reservasi ini?')">Hapus</a>
             </td>
           </tr>
         <?php } ?>
@@ -181,3 +190,8 @@ $data = mysqli_query($koneksi, "SELECT * FROM kamar");
 
 </body>
 </html>
+
+
+
+
+

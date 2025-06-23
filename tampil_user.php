@@ -10,14 +10,14 @@ die("Akses ditolak.");
 exit;
 }
 
-$data = mysqli_query($koneksi, "SELECT * FROM kamar");
+$data = mysqli_query($koneksi, "SELECT * FROM user");
 ?>
 
 <!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <title>Data Kamar | Admin</title>
+  <title>Data User | Admin</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
     body {
@@ -137,7 +137,7 @@ $data = mysqli_query($koneksi, "SELECT * FROM kamar");
 <body>
 
   <div class="navbar">
-    <h2>Data Kamar</h2>
+    <h2>Data User</h2>
     <div>
       <a href="dashboard.php">Dashboard</a>
       <a href="tampil_kamar.php">Kamar</a>
@@ -148,15 +148,14 @@ $data = mysqli_query($koneksi, "SELECT * FROM kamar");
   </div>
 
   <div class="container">
-    <h2>Daftar Kamar Hotel</h2>
-    <a class="btn" href="tambah.php?tipe=kamar">+ Tambah Kamar</a>
+    <h2>Daftar User Hotel</h2>
+    <a class="btn" href="tambah.php?tipe=user">+ Tambah User</a>
     <table>
       <thead>
         <tr>
           <th>No</th>
-          <th>Nomor Kamar</th>
-          <th>Tipe</th>
-          <th>Harga</th>
+          <th>Nama</th>
+          <th>Username</th>
           <th>Status</th>
           <th>Aksi</th>
         </tr>
@@ -165,13 +164,12 @@ $data = mysqli_query($koneksi, "SELECT * FROM kamar");
         <?php $no = 1; while ($d = mysqli_fetch_array($data)) { ?>
           <tr>
             <td><?= $no++ ?></td>
-            <td><?= $d['id_kamar'] ?></td>
-            <td><?= $d['tipe_kamar'] ?></td>
-            <td>Rp <?= number_format($d['harga'], 0, ',', '.') ?></td>
+            <td><?= $d['nama'] ?></td>
+            <td><?= $d['username'] ?></td>
             <td><?= $d['status'] ?></td>
             <td class="aksi">
-              <a class="edit" href="edit.php?tipe=kamar&id=<?= $d['id_kamar'] ?>">Edit</a>
-              <a class="delete" href="hapus.php?tipe=kamar&id=<?= $d['id_kamar'] ?>" onclick="return confirm('Hapus kamar ini?')">Hapus</a>
+              <a class="edit" href="edit.php?tipe=user&id=<?= $d['id_user'] ?>">Edit</a>
+              <a class="delete" href="hapus.php?tipe=user&id=<?= $d['id_user'] ?>" onclick="return confirm('Hapus user ini?')">Hapus</a>
             </td>
           </tr>
         <?php } ?>

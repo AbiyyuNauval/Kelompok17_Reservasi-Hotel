@@ -2,9 +2,7 @@
 session_start();
 include 'koneksidb.php';
 
-// --- BAGIAN 1: PERSIAPAN & MENAMPILKAN FORM ---
-
-if (!isset($_SESSION['user_id'])) {
+if (!isset($_SESSION['id_user'])) {
     header("Location: login.php");
     exit;
 }
@@ -13,12 +11,10 @@ if (!isset($_GET['tipe'])) {
     die("Error: Tipe Kamar tidak valid.");
 }
 
-// UBAH: Sanitasi input tipe kamar secara manual
 $tipe_kamar_dipilih = mysqli_real_escape_string($koneksi, $_GET['tipe']);
-$id_user = $_SESSION['user_id'];
-$nama_user = $_SESSION['nama_lengkap'];
+$id_user = $_SESSION['id_user'];
+$nama_user = $_SESSION['nama'];
 
-// UBAH: Menggunakan mysqli_query untuk mengambil detail kamar
 $sql_display = "SELECT * FROM kamar WHERE tipe_kamar = '$tipe_kamar_dipilih' LIMIT 1";
 $result_display = mysqli_query($koneksi, $sql_display);
 
@@ -27,12 +23,9 @@ if (!$result_display || mysqli_num_rows($result_display) == 0) {
 }
 $kamar_display = mysqli_fetch_assoc($result_display);
 
-// UBAH: Menggunakan mysqli_query untuk cek ketersediaan
 $sql_avail = "SELECT id_kamar FROM kamar WHERE tipe_kamar = '$tipe_kamar_dipilih' AND status = 'Tersedia'";
 $result_avail = mysqli_query($koneksi, $sql_avail);
 $kamar_tersedia = ($result_avail && mysqli_num_rows($result_avail) > 0);
-
-// --- BAGIAN 2: MEMPROSES FORM SAAT DI-SUBMIT ---
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && $kamar_tersedia) {
     
@@ -43,8 +36,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $kamar_tersedia) {
     $is_transaction_success = false;
 
     try {
-        // Langkah A: Cari & KUNCI kamar
-        // UBAH: Menggunakan mysqli_query
         $sql_find_room = "SELECT id_kamar, harga FROM kamar WHERE tipe_kamar = '$tipe_kamar_dipilih' AND status = 'Tersedia' ORDER BY id_kamar ASC LIMIT 1 FOR UPDATE";
         $result_find = mysqli_query($koneksi, $sql_find_room);
 
@@ -53,33 +44,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $kamar_tersedia) {
             $id_kamar_final = $kamar_dipesan['id_kamar'];
             $harga = $kamar_dipesan['harga'];
 
-            // Langkah B: Ubah status kamar
-            // UBAH: Menggunakan mysqli_query
             $sql_update_status = "UPDATE kamar SET status = 'Dipesan' WHERE id_kamar = $id_kamar_final";
             $result_update = mysqli_query($koneksi, $sql_update_status);
 
-            // Langkah C: Masukkan data reservasi
             $tgl1 = new DateTime($check_in);
             $tgl2 = new DateTime($check_out);
             $jumlah_malam = $tgl2->diff($tgl1)->format("%a");
             $total_harga = $jumlah_malam * $harga;
             
-            // UBAH: Sanitasi input tanggal sebelum dimasukkan ke query
             $safe_check_in = mysqli_real_escape_string($koneksi, $check_in);
             $safe_check_out = mysqli_real_escape_string($koneksi, $check_out);
             
-            // UBAH: Menggunakan mysqli_query untuk INSERT
             $sql_insert_reservasi = "INSERT INTO reservasi (id_user, id_kamar, tanggal_checkin, tanggal_checkout, total_harga, status) VALUES ($id_user, $id_kamar_final, '$safe_check_in', '$safe_check_out', $total_harga, 'Pending')";
             $result_insert = mysqli_query($koneksi, $sql_insert_reservasi);
-
-            // UBAH: Pengecekan hasil query dan affected rows
             if ($result_update && mysqli_affected_rows($koneksi) > 0 && $result_insert) {
                 mysqli_commit($koneksi);
                 $is_transaction_success = true;
                 
-                // UBAH: Menggunakan mysqli_insert_id untuk mendapatkan ID baru
                 $new_reservasi_id = mysqli_insert_id($koneksi);
-                header("Location: index.html");
+                header("Location: index.php");
                 exit;
             } else {
                 throw new Exception("Gagal mengupdate status atau membuat reservasi.");
@@ -155,11 +138,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $kamar_tersedia) {
                 <?php endif; ?>
                 <div class="form-group">
                     <label for="check_in">Tanggal Check-in</label>
-                    <input type="date" id="check_in" name="check_in" required min="<?php echo date('Y-m-d'); ?>">
+                    <input type="date" id="check_in" name="check_in" required min="<?php echo date('Y-m-d'); ?>" max="<?php echo date('Y-m-d') ?>">
                 </div>
                 <div class="form-group">
                     <label for="check_out">Tanggal Check-out</label>
-                    <input type="date" id="check_out" name="check_out" required>
+                    <input type="date" id="check_out" name="check_out" required min="<?php echo date('Y-m-d'); ?>" max="<?php echo date('Y-m-d', strtotime('+7 days')); ?>">
                 </div>
                 <button type="submit" class="btn">Konfirmasi Reservasi</button>
             </form>

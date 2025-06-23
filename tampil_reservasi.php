@@ -169,7 +169,7 @@ $reservasi = mysqli_query($koneksi, "
       </thead>
       <tbody>
         <?php $no = 1; while ($d = mysqli_fetch_array($reservasi)) { ?>
-          <?php$tipekamar = mysqli_query($koneksi, "SELECT tipe_kamar FROM kamar where id_kamar='d['id_kamar']");?>
+          <?php$tipekamar = mysqli_query($koneksi, "SELECT tipe_kamar FROM kamar where id_kamar='$d['id_kamar']'");?>
           <tr>
             <td><?= $no++ ?></td>
             <td><?= $d['nama'] ?></td>

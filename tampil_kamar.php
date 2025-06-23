@@ -6,7 +6,7 @@ if (!isset($_SESSION['id_user'])) {
   exit;
 }
 if ($_SESSION['status'] != 'Admin'){
-die("Akses ditolak.");
+    die("Akses ditolak.");
 exit;
 }
 

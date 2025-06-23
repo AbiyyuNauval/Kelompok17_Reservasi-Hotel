@@ -33,6 +33,11 @@ $rata_reservasi = mysqli_fetch_array(mysqli_query($koneksi, "SELECT AVG(total_ha
 
 // Sum
 $total_pendapatan = mysqli_fetch_array(mysqli_query($koneksi, "SELECT SUM(total_harga) AS pendapatan FROM reservasi"));
+
+// Function
+$ketersediaan = mysqli_query($koneksi, 
+  "SELECT tipe_kamar, HitungKamarTersedia(tipe_kamar) AS jumlah_tersedia FROM kamar
+   GROUP BY tipe_kamar");
 ?>
 
 <!DOCTYPE html>
@@ -78,6 +83,7 @@ $total_pendapatan = mysqli_fetch_array(mysqli_query($koneksi, "SELECT SUM(total_
       margin-top: 30px; 
     }
     .card { 
+      position: relative;
       background-color: white; 
       border-radius: 12px; 
       box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
@@ -86,6 +92,7 @@ $total_pendapatan = mysqli_fetch_array(mysqli_query($koneksi, "SELECT SUM(total_
     }
     .card:hover { 
       transform: translateY(-5px); 
+      z-index: 20;
     }
     .card h3 { 
       margin: 0; 
@@ -99,6 +106,50 @@ $total_pendapatan = mysqli_fetch_array(mysqli_query($koneksi, "SELECT SUM(total_
     .card small { 
       font-size: 14px; 
       color: #777; 
+    }
+
+    .hover-details {
+        display: none; /* Sembunyi secara default */
+        position: absolute;
+        top: 100%; /* Muncul tepat di bawah card */
+        left: 0;
+        width: 100%;
+        background-color: white;
+        border-radius: 0 0 12px 12px;
+        box-shadow: 0 8px 15px rgba(0,0,0,0.15);
+        padding: 15px 20px;
+        box-sizing: border-box;
+        z-index: 10;
+        text-align: left;
+    }
+
+    /* Tampilkan kotak detail saat card di-hover */
+    .card:hover .hover-details {
+        display: block;
+    }
+
+    /* Styling untuk list di dalam kotak detail */
+    .hover-details ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+    .hover-details li {
+        display: flex;
+        justify-content: space-between;
+        padding: 5px 0;
+        border-bottom: 1px solid #f0f0f0;
+    }
+    .hover-details li:last-child {
+        border-bottom: none;
+    }
+    .hover-details .kamar-tipe {
+        font-weight: 500;
+        color: #555;
+    }
+    .hover-details .kamar-jumlah {
+        font-weight: 600;
+        color: #4e54c8;
     }
   </style>
 </head>
@@ -132,7 +183,17 @@ $total_pendapatan = mysqli_fetch_array(mysqli_query($koneksi, "SELECT SUM(total_
       <div class="card">
         <h3>Total Kamar</h3>
         <p><?= $kamar['total_kamar'] ?> Kamar</p>
-        <small>Tersedia: <?= $kamar_tersedia['total_tersedia'] ?> | Dipesan: <?= $kamar_dipesan['total_dipesan'] ?></small>
+        
+        <div class="hover-details">
+        <ul>
+            <?php while($detail = mysqli_fetch_assoc($ketersediaan)): ?>
+                <li>
+                    <span class="kamar-tipe"><?php echo $detail['tipe_kamar']; ?></span>
+                    <span class="kamar-jumlah"><?php echo $detail['jumlah_tersedia']; ?> Tersedia</span>
+                </li>
+            <?php endwhile; ?>
+        </ul>
+    </div>
       </div>
     </div>
 

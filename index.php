@@ -278,29 +278,6 @@ session_start();
             text-align: center;
             padding: 20px;
         }
-        
-        /* Responsive */
-        @media (max-width: 768px) {
-            .navbar {
-                flex-direction: column;
-                padding: 15px;
-            }
-            .navbar .nav-links {
-                margin-top: 10px;
-            }
-            .navbar .nav-links a {
-                margin: 0 10px;
-            }
-            
-            /* ======== PERUBAHAN CSS RESPONSIVE UNTUK KAMAR ======== */
-            #rooms .card-grid-rooms {
-                grid-template-columns: 1fr; /* Kembali ke 1 kolom di layar kecil */
-            }
-
-            .contact-wrapper {
-                grid-template-columns: 1fr;
-            }
-        }
     </style>
 </head>
 <body>
@@ -314,7 +291,7 @@ session_start();
             <a href="#contact">Kontak</a>
             
             <?php if (isset($_SESSION['id_user'])): ?>
-                <a href="#">Halo, <?php echo $_SESSION['nama']; ?></a>
+                <a href="riwayat_reservasi.php">Reservasi Saya</a>
                 <a href="logout.php" style="background-color: #e63946; padding: 8px 15px; border-radius: 5px;">Logout</a>
             <?php else: ?>
                 <a href="login.php" style="background-color: rgba(255, 255, 255, 0.2); border: 1px solid white; padding: 8px 15px; border-radius: 5px;">Login</a>

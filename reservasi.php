@@ -55,7 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $kamar_tersedia) {
             $safe_check_in = mysqli_real_escape_string($koneksi, $check_in);
             $safe_check_out = mysqli_real_escape_string($koneksi, $check_out);
             
-            $sql_insert_reservasi = "INSERT INTO reservasi (id_user, id_kamar, tanggal_checkin, tanggal_checkout, total_harga, status) VALUES ($id_user, $id_kamar_final, '$safe_check_in', '$safe_check_out', $total_harga, 'Pending')";
+            $sql_insert_reservasi = "INSERT INTO reservasi (id_user, id_kamar, tanggal_checkin, tanggal_checkout, total_harga) VALUES ($id_user, $id_kamar_final, '$safe_check_in', '$safe_check_out', $total_harga)";
             $result_insert = mysqli_query($koneksi, $sql_insert_reservasi);
             if ($result_update && mysqli_affected_rows($koneksi) > 0 && $result_insert) {
                 mysqli_commit($koneksi);
